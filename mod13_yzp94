@@ -1,0 +1,48 @@
+import unittest
+from unittest.mock import patch
+from project3_data import validate_symbol, validate_chart_type, validate_time_series, validate_dates
+
+class TestProject3Inputs(unittest.TestCase):
+
+    @patch('builtins.input', side_effect=["AAPL"])
+    def test_validate_symbol_valid(self, mock_input):
+        self.assertTrue(validate_symbol())
+
+    @patch('builtins.input', side_effect=["invalid_symbol"])
+    def test_validate_symbol_invalid(self, mock_input):
+        self.assertFalse(validate_symbol())
+
+    @patch('builtins.input', side_effect=["1"])
+    def test_validate_chart_type_valid(self, mock_input):
+        self.assertTrue(validate_chart_type())
+
+    @patch('builtins.input', side_effect=["invalid_chart_type"])
+    def test_validate_chart_type_invalid(self, mock_input):
+        self.assertFalse(validate_chart_type())
+
+    @patch('builtins.input', side_effect=["1"])
+    def test_validate_time_series_valid(self, mock_input):
+        self.assertTrue(validate_time_series())
+
+    @patch('builtins.input', side_effect=["invalid_time_series"])
+    def test_validate_time_series_invalid(self, mock_input):
+        self.assertFalse(validate_time_series())
+
+    @patch('builtins.input', side_effect=["2022-01-01", "2023-01-01"])
+    def test_validate_dates_valid(self, mock_input):
+        self.assertTrue(validate_dates())
+
+    @patch('builtins.input', side_effect=["invalid_start_date", "2023-01-01"])
+    def test_validate_dates_invalid_start_date(self, mock_input):
+        self.assertFalse(validate_dates())
+
+    @patch('builtins.input', side_effect=["2022-01-01", "invalid_end_date"])
+    def test_validate_dates_invalid_end_date(self, mock_input):
+        self.assertFalse(validate_dates())
+
+    @patch('builtins.input', side_effect=["invalid_start_date", "invalid_end_date"])
+    def test_validate_dates_invalid_both_dates(self, mock_input):
+        self.assertFalse(validate_dates())
+
+if __name__ == '__main__':
+    unittest.main()
